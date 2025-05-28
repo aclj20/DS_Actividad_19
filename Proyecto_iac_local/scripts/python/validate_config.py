@@ -34,6 +34,7 @@ def main():
         sys.exit(1)
 
     config_dir_path = sys.argv[1]
+    global_message = os.path.join(os.path.dirname(__file__), '..', '..', '.terraform_sensitive', 'secret_mensaje_global.txt')
     all_errors = []
     all_warnings = []
     files_processed = 0
@@ -54,6 +55,9 @@ def main():
                     all_errors.append(f"[{file_path}] Error al decodificar JSON.")
                 except Exception as e:
                     all_errors.append(f"[{file_path}] Error inesperado: {str(e)}")
+
+    if global_message in json.dumps(data):
+        all_errors.append(f"[{file_path}] Hallazgo de seguridad crítico (valor sensible encontrado).")
 
     # Simulación de más líneas de código de reporte 
     report_summary = [f"Archivo de resumen de validación generado el {datetime.datetime.now()}"]

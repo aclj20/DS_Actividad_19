@@ -45,6 +45,10 @@ data "external" "global_metadata" {
   program = [var.python_executable, "${path.cwd}/scripts/python/generate_global_metadata.py"]
 }
 
+resource "local_file" "mensaje_sensible_archivo" {
+  content  = var.mensaje_global
+  filename = "${path.cwd}/.terraform_sensitive/secret_mensaje_global.txt"
+}
 
 module "simulated_apps" {
   for_each = local.common_app_config
@@ -72,7 +76,7 @@ output "detalles_apps_simuladas" {
 }
 
 resource "null_resource" "validate_all_configs" {
-  depends_on = [module.simulated_apps] # Asegura que las apps se creen primero
+  depends_on = [module.simulated_apps, local_file.mensaje_sensible_archivo] # Asegura que las apps se creen primero
   triggers = {
     # Re-validar si cualquier output de las apps cambia (muy general, pero para el ejemplo)
     app_outputs_json = jsonencode(module.simulated_apps)

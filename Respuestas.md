@@ -1,0 +1,2 @@
+## Ejercicio 4
+Terraform maneja los valores sensitive de tal manera que no se muestren en ningún output. Sin embargo, si se maneja mal, estos pueden ser mostrados en los archivos, lo que llevaría a fallos de seguridad. Un buen ejemplo es lo que pasa en el proyecto, global_message se pasa a un módulo y de ahí se pone en un .JSON, al imprimir el .JSON esto no se va a mostrar, ya que es una variable sensitive. Sin embargo, esto seguirá estando en el programa, por lo que queda expuesto.
