@@ -1,10 +1,3 @@
-variable "app_name" { type = string }
-variable "app_version" { type = string }
-variable "app_port" { type = number }
-variable "base_install_path" { type = string }
-variable "global_message_from_root" { type = string }
-variable "python_exe" { type = string } # Ruta al ejecutable de Python a usar
-
 locals {
   install_path = "${var.base_install_path}/${var.app_name}_v${var.app_version}"
 }
@@ -27,6 +20,7 @@ data "template_file" "app_config" {
     port_tpl        = var.app_port
     deployed_at_tpl = timestamp()
     message_tpl     = var.global_message_from_root
+    deployment_id_tpl = var.deployment_id
   }
 }
 

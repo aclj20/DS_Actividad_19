@@ -15,10 +15,20 @@ output "ruta_bienvenida" {
   value = local_file.bienvenida.filename
 }
 
+module "config_entorno_principal" {
+  source                = "./modules/environment_setup"
+  base_path             = "${path.cwd}/generated_environment"
+  nombre_entorno_modulo = var.nombre_entorno
+}
+
+output "readme_principal" {
+  value = module.config_entorno_principal.ruta_readme_modulo
+}
+
 variable "python_executable" {
   description = "Ruta al ejecutable de Python (python o python3)."
   type        = string
-  default     = "C:/Users/kapum/DS/bdd/Scripts/python.exe"
+  default     = "C:\\Users\\sandr\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
 }
 
 locals {
@@ -31,6 +41,11 @@ locals {
   }
 }
 
+data "external" "global_metadata" {
+  program = [var.python_executable, "${path.cwd}/scripts/python/generate_global_metadata.py"]
+}
+
+
 module "simulated_apps" {
   for_each = local.common_app_config
 
@@ -41,6 +56,7 @@ module "simulated_apps" {
   base_install_path        = "${path.cwd}/generated_environment/services"
   global_message_from_root = var.mensaje_global # Pasar la variable sensible
   python_exe               = var.python_executable
+  deployment_id      = data.external.global_metadata.result.deployment_id
 }
 
 output "detalles_apps_simuladas" {

@@ -3,6 +3,7 @@
     "version": "${app_version_tpl}",
     "listenPort": ${port_tpl},
     "deploymentTime": "${deployed_at_tpl}",
+    "deploymentId": "${deployment_id_tpl}",
     "notes": "Este es un archivo de configuración autogenerado. ${message_tpl}",
     "settings": {
         "featureA": true,
