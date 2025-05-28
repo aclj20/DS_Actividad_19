@@ -28,7 +28,7 @@ locals {
     # Se pueden añadir más para superar las 700 líneas fácilmente
     # app3 = { version = "2.1.0", port = 8083 }
     # app4 = { version = "1.0.0", port = 8084 }
-    
+    database_conector = { version = "1.0.0", port = 5432, connection_string = "postgresql://user:pass@localhost/db"}
   }
 }
 
