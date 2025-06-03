@@ -1,9 +1,11 @@
 {
-    "applicationName": "app1",
-    "version": "1.0.2",
-    "listenPort": 8081,
+    "applicationName": "database_connector",
+    "version": "1.0.0",
+    "listenPort": 5432,
     "deploymentTime": "2025-06-03T20:39:09Z",
     "notes": "Este es un archivo de configuración autogenerado. Configuración gestionada por Terraform."
+    ,
+        "connection_string": "postgresql://user:pass@localhost/db"
     ,
     "settings": {
         "featureA": true,

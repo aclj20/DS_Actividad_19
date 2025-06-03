@@ -3,8 +3,10 @@
     "version": "${app_version_tpl}",
     "listenPort": ${port_tpl},
     "deploymentTime": "${deployed_at_tpl}",
-    "notes": "Este es un archivo de configuración autogenerado. ${message_tpl}"%{ if connection_string_tpl != "" },
-    "connection_string": "${connection_string_tpl}"%{ endif },
+    "notes": "Este es un archivo de configuración autogenerado. ${message_tpl}"
+    %{ if connection_string_tpl != "" },
+        "connection_string": "${connection_string_tpl}"
+    %{ endif },
     "settings": {
         "featureA": true,
         "featureB": false,

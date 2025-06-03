@@ -28,7 +28,7 @@ locals {
     # Se pueden añadir más para superar las 700 líneas fácilmente
     # app3 = { version = "2.1.0", port = 8083 }
     # app4 = { version = "1.0.0", port = 8084 }
-    database_conector = { version = "1.0.0", port = 5432, connection_string = "postgresql://user:pass@localhost/db"}
+    database_connector = { version = "1.0.0", port = 5432, connection_string = "var.database_connection_string"}
   }
 }
 
@@ -42,6 +42,8 @@ module "simulated_apps" {
   base_install_path        = "${path.cwd}/generated_environment/services"
   global_message_from_root = var.mensaje_global # Pasar la variable sensible
   python_exe               = var.python_executable
+  connection_string_tpl = try(each.value.connection_string, "")
+
 }
 
 output "detalles_apps_simuladas" {

@@ -2,8 +2,9 @@
     "applicationName": "app2",
     "version": "0.5.0",
     "listenPort": 8082,
-    "deploymentTime": "2025-05-27T01:31:09Z",
-    "notes": "Este es un archivo de configuración autogenerado. Configuración gestionada por Terraform.",
+    "deploymentTime": "2025-06-03T20:39:09Z",
+    "notes": "Este es un archivo de configuración autogenerado. Configuración gestionada por Terraform."
+    ,
     "settings": {
         "featureA": true,
         "featureB": false,

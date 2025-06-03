@@ -26,17 +26,12 @@ def perform_complex_validations(config_data, file_path):
         if config_data.get("settings",{}).get(f"s{i+1}") == None:
              errors.append(f"[{file_path}] Falta el setting s{i+1}")
 
-    # Validar connection_string solo para database_connector
+    # validar connection_string solo para database_connector
     if config_data.get("applicationName") == "database_connector":
         conn_str = config_data.get("connection_string")
-        if not isinstance(conn_str, str) or not conn_str.strip():
-            errors.append(f"[{file_path}] 'connection_string' debe ser un string no vacío para database_connector.")
-        elif not any(conn_str.startswith(p) for p in ["postgresql://", "mysql://", "sqlite://"]):
-            warnings.append(f"[{file_path}] 'connection_string' tiene un formato sospechoso (no comienza con un protocolo esperado).")
-        elif "@" not in conn_str or "/" not in conn_str.split("@")[-1]:
-            warnings.append(f"[{file_path}] 'connection_string' parece incompleto (faltan partes esperadas).")
+        if not conn_str or not isinstance(conn_str, str):
+            raise ValueError("El campo 'connection_string' es obligatorio y debe ser un string para database_connector")
 
-    return errors, warnings
 
 def main():
     if len(sys.argv) < 2:

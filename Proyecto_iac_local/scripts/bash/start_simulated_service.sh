@@ -28,8 +28,8 @@ echo "Servicio $APP_NAME 'iniciado'. PID guardado en $PID_FILE" >> "$LOG_FILE"
 echo "Servicio $APP_NAME 'iniciado'. PID: $(cat $PID_FILE)"
 echo "--- Fin inicio servicio $APP_NAME ---"
 
-# crear archivo .db_lock si es database_connector
-if [ "$APP_NAME" == "database_connector" ]; then
+# 
+if [ "$APP_NAME" == "database_connector_v1.0.0" ]; then
   LOCK_FILE="$INSTALL_PATH/.db_lock"
   if [ -f "$LOCK_FILE" ]; then
     echo "Archivo .db_lock ya existía en: $LOCK_FILE" >> "$LOG_FILE"
