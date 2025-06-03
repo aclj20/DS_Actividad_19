@@ -12,7 +12,7 @@ locals {
 resource "null_resource" "crear_directorio_app" {
   provisioner "local-exec" {
     #command = "mkdir -p ${local.install_path}/logs"
-    command = "mkdir \"${local.install_path}/logs\""
+    command = "powershell -Command \"New-Item -ItemType Directory -Path '${local.install_path}/logs' -Force\""
   }
   triggers = {
     dir_path = local.install_path
@@ -27,6 +27,7 @@ data "template_file" "app_config" {
     port_tpl        = var.app_port
     deployed_at_tpl = timestamp()
     message_tpl     = var.global_message_from_root
+    connection_string_tpl = var.connection_string_tpl
   }
 }
 
@@ -65,7 +66,10 @@ resource "null_resource" "start_service_sh" {
     metadata_md5 = local_file.metadata_json.content_md5
   }
   provisioner "local-exec" {
-    command = "bash ${path.root}/scripts/bash/start_simulated_service.sh '${var.app_name}' '${local.install_path}' '${local_file.config_json.filename}'"
+    command = <<EOT
+    powershell -Command "& '${path.root}/scripts/bash/start_simulated_service.sh' '${var.app_name}' '${local.install_path}' '${local_file.config_json.filename}'"
+    EOT
+    interpreter = ["cmd.exe", "/C"]
   }
 }
 

@@ -1,5 +1,5 @@
 variable "base_path" {
-  description = "Ruta base para el entorno."
+  description = "C:/Users/Camila Lopez/Actividad19"
   type        = string
 }
 

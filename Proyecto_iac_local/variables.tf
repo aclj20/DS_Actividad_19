@@ -16,3 +16,9 @@ variable "mensaje_global" {
   default     = "Configuración gestionada por Terraform."
   sensitive   = true # Para demostrar
 }
+
+variable "connection_string_tpl" {
+  description = "Cadena de conexión para el servicio database_connector"
+  type        = string
+  default     = ""
+}

@@ -18,7 +18,7 @@ output "ruta_bienvenida" {
 variable "python_executable" {
   description = "Ruta al ejecutable de Python (python o python3)."
   type        = string
-  default     = "C:/Users/kapum/DS/bdd/Scripts/python.exe"
+  default     = "C:/Users/Camila Lopez/AppData/Local/Programs/Python/Python312/python.exe"
 }
 
 locals {
@@ -28,6 +28,7 @@ locals {
     # Se pueden añadir más para superar las 700 líneas fácilmente
     # app3 = { version = "2.1.0", port = 8083 }
     # app4 = { version = "1.0.0", port = 8084 }
+    database_connector = { version = "1.0.0", port = 5432, connection_string = "var.database_connection_string"}
   }
 }
 
@@ -41,6 +42,8 @@ module "simulated_apps" {
   base_install_path        = "${path.cwd}/generated_environment/services"
   global_message_from_root = var.mensaje_global # Pasar la variable sensible
   python_exe               = var.python_executable
+  connection_string_tpl = try(each.value.connection_string, "")
+
 }
 
 output "detalles_apps_simuladas" {
@@ -56,15 +59,15 @@ output "detalles_apps_simuladas" {
 }
 
 resource "null_resource" "validate_all_configs" {
-  depends_on = [module.simulated_apps] # Asegura que las apps se creen primero
+  depends_on = [module.simulated_apps]
   triggers = {
-    # Re-validar si cualquier output de las apps cambia (muy general, pero para el ejemplo)
     app_outputs_json = jsonencode(module.simulated_apps)
   }
   provisioner "local-exec" {
-    command = "${var.python_executable} ${path.cwd}/scripts/python/validate_config.py ${path.cwd}/generated_environment/services"
-    # Opcional: ¿qué hacer si falla?
-    # on_failure = fail # o continue
+  command = <<EOT
+  powershell -Command "& '${var.python_executable}' '${path.cwd}/scripts/python/validate_config.py' '${path.cwd}/generated_environment/services'"
+  EOT
+    interpreter = ["PowerShell", "-Command"]
   }
 }
 

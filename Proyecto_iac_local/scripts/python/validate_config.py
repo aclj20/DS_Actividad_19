@@ -26,7 +26,12 @@ def perform_complex_validations(config_data, file_path):
         if config_data.get("settings",{}).get(f"s{i+1}") == None:
              errors.append(f"[{file_path}] Falta el setting s{i+1}")
 
-    return errors, warnings
+    # validar connection_string solo para database_connector
+    if config_data.get("applicationName") == "database_connector":
+        conn_str = config_data.get("connection_string")
+        if not conn_str or not isinstance(conn_str, str):
+            raise ValueError("El campo 'connection_string' es obligatorio y debe ser un string para database_connector")
+
 
 def main():
     if len(sys.argv) < 2:
